@@ -179,11 +179,24 @@ public class SimplexSolver
         // DisplayResults();
         if (twoFases)
         {
+            var objectiveFunction = DenseVector.OfEnumerable(vectorN);
+            var constraintsMatrix = DenseMatrix.OfRows(matrix.Count, matrix[0].Count, matrix);
+            var constraintsVector = DenseVector.OfArray(vectorM);
+            var initialSolution = DenseVector.OfEnumerable(initBase);
+
+            LinearProgram linearProgram = new LinearProgram(objectiveFunction, constraintsMatrix, constraintsVector, initialSolution);
+            
             
         }
         else
         {
-            
+            var objectiveFunction = DenseVector.OfEnumerable(vectorN);
+            var constraintsMatrix = DenseMatrix.OfRows(matrix.Count, matrix[0].Count, matrix);
+            var constraintsVector = DenseVector.OfArray(vectorM);
+            var initialSolution = DenseVector.OfEnumerable(initBase);
+
+            LinearProgram linearProgram = new LinearProgram(objectiveFunction, constraintsMatrix, constraintsVector, initialSolution);
+
         }
     }
 }
