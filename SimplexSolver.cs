@@ -31,7 +31,87 @@ public class SimplexSolver
         this.binaryVectorN = (int[])binaryVectorN.Clone();
         
     }
+    // Convert the linear optimization problem to its dual
+    public void ConvertToDual()
+    {
+        // Step 1: Process vectorSign and modify matrix and vectorM
+        for (int i = 0; i < vectorSign.Length; i++)
+        {
+            if (vectorSign[i] == -1)
+            {
+                vectorM[i] *= -1;
+                vectorSign[i] *= -1;
 
+                for (int j = 0; j < matrix[i].Count; j++)
+                {
+                    matrix[i][j] *= -1;
+                }
+            }
+        }
+
+        // Step 2: Transpose the matrix
+        List<List<double>> transposedMatrix = new();
+        for (int j = 0; j < matrix[0].Count; j++)
+        {
+            List<double> newRow = new();
+            for (int i = 0; i < matrix.Count; i++)
+            {
+                newRow.Add(matrix[i][j]);
+            }
+            transposedMatrix.Add(newRow);
+        }
+
+        // Step 3: Convert vectorN to the new vectorM and reverse it
+        double[] newVectorM = vectorN.ToArray();
+        Array.Reverse(newVectorM);
+
+        // Step 4: Create a new binary vector
+        int[] newBinaryVector = new int[vectorSign.Length];
+        for (int i = 0; i < newBinaryVector.Length; i++)
+        {
+            newBinaryVector[i] = vectorSign[i] == 0 ? 0 : 1;
+        }
+
+        // Step 5: Create a new vectorSign
+        int[] newVectorSign = new int[binaryVectorN.Length];
+
+        for (int i = 0; i < binaryVectorN.Length; i++)
+        {
+            if (binaryVectorN[i] == 0)
+            {
+                newVectorSign[i] = 0;
+            }
+            else
+            {
+                newVectorSign[i] = -1;
+            }
+        }
+
+        // Step 6: Update the fields with new values
+        this.vectorN = new List<double>(vectorM);
+        this.vectorM = newVectorM;
+        this.matrix = transposedMatrix;
+        this.binaryVectorN = newBinaryVector;
+        this.vectorSign = newVectorSign;
+        var t = this.n;
+        this.n = m;
+        this.m = t;
+        // Display results
+        // Console.WriteLine("\nConversion to Dual Completed:");
+        // Console.WriteLine("\nUpdated vectorN (new vectorM):");
+        // Console.WriteLine(string.Join(", ", vectorN));
+        // Console.WriteLine("\nUpdated vectorM (new vectorN):");
+        // Console.WriteLine(string.Join(", ", vectorM));
+        // Console.WriteLine("\nUpdated matrix (transposed):");
+        // foreach (var row in matrix)
+        // {
+        //     Console.WriteLine(string.Join(", ", row));
+        // }
+        // Console.WriteLine("\nUpdated binary vector:");
+        // Console.WriteLine(string.Join(", ", binaryVectorN));
+        // Console.WriteLine("\nUpdated vectorSign:");
+        // Console.WriteLine(string.Join(", ", vectorSign));
+    }
     // Preprocess problem for binaryVectorN
     private void PreprocessBinaryVectorN()
     {
