@@ -88,7 +88,7 @@ public class SimplexSolver
         }
 
         // Step 6: Update the fields with new values
-        this.vectorN = new List<double>(vectorM);
+        this.vectorN = vectorM.Select(x => -x).ToList();
         this.vectorM = newVectorM;
         this.matrix = transposedMatrix;
         this.binaryVectorN = newBinaryVector;
