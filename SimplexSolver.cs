@@ -63,7 +63,6 @@ public class SimplexSolver
 
         // Step 3: Convert vectorN to the new vectorM and reverse it
         double[] newVectorM = vectorN.ToArray();
-        Array.Reverse(newVectorM);
 
         // Step 4: Create a new binary vector
         int[] newBinaryVector = new int[vectorSign.Length];
