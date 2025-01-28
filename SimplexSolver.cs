@@ -63,7 +63,6 @@ public class SimplexSolver
 
         // Step 3: Convert vectorN to the new vectorM and reverse it
         double[] newVectorM = vectorN.ToArray();
-        Array.Reverse(newVectorM);
 
         // Step 4: Create a new binary vector
         int[] newBinaryVector = new int[vectorSign.Length];
@@ -257,26 +256,26 @@ public class SimplexSolver
         ProcessVectorM();
         ProcessVectorSign();
         // DisplayResults();
+        
+        Vector<bool> baseVector = DenseVector.OfEnumerable(initBase.Select(x => x == 1)).ToVector();
+    
+        var initialSolution = DenseVector.OfEnumerable(
+            initBase.Select((x, i) => x == 1 ? vectorM[i] : 0)
+        );
+
+        var objectiveFunction = DenseVector.OfEnumerable(vectorN);
+        var constraintsMatrix = DenseMatrix.OfRows(matrix.Count, matrix[0].Count, matrix);
+        var constraintsVector = DenseVector.OfArray(vectorM);
+    
+        LinearProgram linearProgram = new LinearProgram(objectiveFunction, constraintsMatrix, constraintsVector, initialSolution, baseVector);
+    
         if (twoFases)
         {
-            var objectiveFunction = DenseVector.OfEnumerable(vectorN);
-            var constraintsMatrix = DenseMatrix.OfRows(matrix.Count, matrix[0].Count, matrix);
-            var constraintsVector = DenseVector.OfArray(vectorM);
-            var initialSolution = DenseVector.OfEnumerable(initBase);
-
-            LinearProgram linearProgram = new LinearProgram(objectiveFunction, constraintsMatrix, constraintsVector, initialSolution);
-            
-            
+           
         }
         else
         {
-            var objectiveFunction = DenseVector.OfEnumerable(vectorN);
-            var constraintsMatrix = DenseMatrix.OfRows(matrix.Count, matrix[0].Count, matrix);
-            var constraintsVector = DenseVector.OfArray(vectorM);
-            var initialSolution = DenseVector.OfEnumerable(initBase);
-
-            LinearProgram linearProgram = new LinearProgram(objectiveFunction, constraintsMatrix, constraintsVector, initialSolution);
-
+            
         }
     }
 }
