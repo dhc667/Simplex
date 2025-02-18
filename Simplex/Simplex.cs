@@ -65,13 +65,13 @@ class SimplexMethod
             if (almostGreaterThan(r[inIndex], 0)  /* r[inIndex] > 0 */)
             {
                 var sol = BuildSolution(y0, currentBasisIndexes);
-                return new SimplexSolution(SimplexSolution.SolutionType.SingleOptimal, C * sol, sol);
+                return new SimplexSolution(SimplexSolution.SolutionType.SingleOptimal, C * sol, sol, currentBasis, currentBasisIndexes);
             }
             else if (almostEqual(r[inIndex], 0)  /* r[inIndex] == 0 */)
             {
                 var sol = BuildSolution(y0, currentBasisIndexes);
                 /* System.Console.WriteLine("Infinite Optimal set, solution: {0}", C*sol); */
-                return new SimplexSolution(SimplexSolution.SolutionType.InfiniteOptimalSet, C * sol, sol);
+                return new SimplexSolution(SimplexSolution.SolutionType.InfiniteOptimalSet, C * sol, sol, currentBasis, currentBasisIndexes);
             }
 
             var yIn = GetYiVector(basisLu, inIndex);
@@ -252,11 +252,15 @@ public class SimplexSolution
 
     public Vector<double>? Solution { get; }
     public double? ObjectiveFunction { get; }
+    public Matrix<double>? Basis { get; }
+    public List<int>? BasisIndexes { get; }
 
-    public SimplexSolution(SolutionType type, double? objectiveFunction = null, Vector<double>? v1 = null)
+    public SimplexSolution(SolutionType type, double? objectiveFunction = null, Vector<double>? v1 = null, Matrix<double>? basis = null, List<int>? basisIndexes = null)
     {
         this.Type = type;
         this.Solution = v1;
         this.ObjectiveFunction = objectiveFunction;
+        this.BasisIndexes = basisIndexes;
+        this.Basis = basis;
     }
 }
