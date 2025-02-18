@@ -224,3 +224,10 @@ AppPackages/
 #####
 # End of core ignore list, below put you custom 'per project' settings (patterns or path)
 #####
+Bibliography
+Tests/SimplexMethod/matrices.json
+Tests/SimplexMethod/my_matrices.json
+Tests/SimplexMethod/test.py
+Session.vim
+staging.json
+test.sh

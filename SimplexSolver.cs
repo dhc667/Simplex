@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using MathNet.Numerics.LinearAlgebra.Double;
 
 public class SimplexSolver
 {
@@ -257,7 +258,7 @@ public class SimplexSolver
         ProcessVectorSign();
         // DisplayResults();
         
-        Vector<bool> baseVector = DenseVector.OfEnumerable(initBase.Select(x => x == 1)).ToVector();
+        List<bool> baseVector = initBase.Select(x => x == 1).ToList();
     
         var initialSolution = DenseVector.OfEnumerable(
             initBase.Select((x, i) => x == 1 ? vectorM[i] : 0)
