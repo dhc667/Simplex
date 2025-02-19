@@ -251,8 +251,11 @@ public class SimplexSolver
     }
 
     // Solve the simplex problem
-    public void Solve()
+    public SimplexSolution Solve()
     {
+        if(n<m){
+            ConvertToDual();
+        }
         PreprocessBinaryVectorN();
         ProcessVectorM();
         ProcessVectorSign();
@@ -302,7 +305,7 @@ public class SimplexSolver
             if (firstPhaseSolution.Type != SimplexSolution.SolutionType.SingleOptimal)
             {
                 Console.WriteLine("First phase did not find a feasible solution.");
-                return;
+                return new SimplexSolution(SimplexSolution.SolutionType.Unbounded,null,null,null);
             }
 
             // Use the first phase solution as the initial solution for the second phase
@@ -338,5 +341,7 @@ public class SimplexSolver
         {
             Console.WriteLine("No feasible solution found.");
         }
+
+        return finalSolution;
     }
 }
