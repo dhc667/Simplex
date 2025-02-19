@@ -56,7 +56,7 @@ def solve_simplex(problem_data):
     return solution
 
 # Generate and solve random feasible problems
-problems_solutions = [generate_random_problem() for _ in range(10)]
+problems_solutions = [generate_random_problem() for _ in range(1000)]
 output_data = [{"problem": p, "solution": s} for p, s in problems_solutions]
 
 # Save the problems and solutions in a JSON file

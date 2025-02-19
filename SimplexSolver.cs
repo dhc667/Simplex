@@ -367,7 +367,13 @@ public class SimplexSolver
         }
 
         var finalSolution = simplexMethod.Solution;
-        
+        var truncatedSolution = new SimplexSolution(
+            finalSolution.Type,
+            finalSolution.ObjectiveFunction,
+            finalSolution.Solution?.Take(n).ToArray() == null ? null : DenseVector.OfEnumerable(finalSolution.Solution.Take(n).ToArray()),
+            finalSolution.Basis,
+            finalSolution.BasisIndexes
+        );
         // Display the final solution
         if (finalSolution.Type == SimplexSolution.SolutionType.SingleOptimal)
         {

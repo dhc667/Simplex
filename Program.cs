@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using MathNet.Numerics.LinearAlgebra.Double;
 public class Program
 {
     public static void Main(string[] args)
@@ -66,11 +67,18 @@ public class Program
                 
                 var sol = solver.Solve();
                 
-                Console.WriteLine("Expected Evaluation: " + testCase.solution.evaluationValue);
-                Console.WriteLine("Obtained Evaluation: " + sol.ObjectiveFunction);
-                Console.WriteLine("Expected Solution: " + string.Join(", ", testCase.solution.solutionVector));
-                Console.WriteLine("Obtained Solution: " + string.Join(", ", sol.Solution));
-                Console.WriteLine("Success: " + sol.Type);
+                string green = "\u001b[32m"; // Green
+                string red = "\u001b[31m";   // Red
+                string reset = "\u001b[0m";  // Reset color
+
+                bool isMatch = Math.Abs((double)(testCase.solution.evaluationValue - sol.ObjectiveFunction)) < 1e-6;
+                string evalColor = isMatch ? green : red;
+
+                Console.WriteLine($"{evalColor}Expected Evaluation: {testCase.solution.evaluationValue}{reset}");
+                Console.WriteLine($"{evalColor}Obtained Evaluation: {sol.ObjectiveFunction}{reset}");
+                Console.WriteLine($"Expected Solution: {string.Join(", ", testCase.solution.solutionVector)}");
+                Console.WriteLine($"Obtained Solution: {string.Join(", ", DenseVector.OfEnumerable(sol.Solution.Take(testCase.solution.solutionVector.Count).ToArray()) )}");
+                Console.WriteLine($"Success: {sol.Type}");
                 Console.WriteLine("--------------------------------------------------");
             }
         }
