@@ -304,7 +304,7 @@ public class SimplexSolver
             // Check if the first phase solution is feasible
             Console.WriteLine(firstPhaseSolution.Type);
             Console.WriteLine(firstPhaseSolution.Solution);
-            if (firstPhaseSolution.Type == SimplexSolution.SolutionType.Unbounded)
+            if (firstPhaseSolution.Type == SimplexSolution.SolutionType.Unbounded || Comparers.almostGreaterThan(firstPhaseSolution.ObjectiveFunction.Value, 0))
             {
                 Console.WriteLine("First phase did not find a feasible solution.");
                 return new SimplexSolution(SimplexSolution.SolutionType.Unbounded,null,null,null);
@@ -313,8 +313,6 @@ public class SimplexSolver
             // Use the first phase solution as the initial solution for the second phase
             var newInitialSolution = (DenseVector)firstPhaseSolution.Solution;
             var newBasisList = firstPhaseSolution.BasisIndexes;
-
-            
 
             LinearProgram linearProgram = new LinearProgram(objectiveFunction, constraintsMatrix, constraintsVector, newInitialSolution, newBasisList);
             simplexMethod = new SimplexMethod(linearProgram);

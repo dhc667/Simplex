@@ -14,13 +14,13 @@ class SimplexMethod
 
     public SimplexMethod(POL problem)
     {
-    /*     System.Console.WriteLine("SIMPLEX: \n"); */
+        /* System.Console.WriteLine("SIMPLEX: \n"); */
 
-    /*     System.Console.WriteLine($"A: {problem.ConstraintsMatrix.ToString()}"); */
-    /*     System.Console.WriteLine($"B: {problem.ConstraintsVector.ToString()}"); */
-    /*     System.Console.WriteLine($"X0: {problem.InitialSolution.ToString()}"); */
-    /*     System.Console.WriteLine($"C: {problem.ObjectiveFunction.ToString()}"); */
-    /*     System.Console.WriteLine($"InitialBasis: {string.Join(", ", problem.BasisVectors)}"); */
+        /* System.Console.WriteLine($"A: {problem.ConstraintsMatrix.ToString()}"); */
+        /* System.Console.WriteLine($"B: {problem.ConstraintsVector.ToString()}"); */
+        /* System.Console.WriteLine($"X0: {problem.InitialSolution.ToString()}"); */
+        /* System.Console.WriteLine($"C: {problem.ObjectiveFunction.ToString()}"); */
+        /* System.Console.WriteLine($"InitialBasis: {string.Join(", ", problem.BasisIndexes)}"); */
 
         this.A = problem.ConstraintsMatrix;
         this.B = problem.ConstraintsVector;
@@ -57,12 +57,12 @@ class SimplexMethod
             /* System.Console.WriteLine(currentBasis); */
             /* System.Console.WriteLine($"Current Solution: {C * BuildSolution(y0, currentBasisIndexes)}"); */
 
-            if (inIndex == -1 || almostGreaterThan(r[inIndex], 0)  /* r[inIndex] > 0 */)
+            if (inIndex == -1 || Comparers.almostGreaterThan(r[inIndex], 0)  /* r[inIndex] > 0 */)
             {
                 var sol = BuildSolution(y0, currentBasisIndexes);
                 return new SimplexSolution(SimplexSolution.SolutionType.SingleOptimal, C * sol, sol, currentBasis, currentBasisIndexes);
             }
-            else if (almostEqual(r[inIndex], 0)  /* r[inIndex] == 0 */)
+            else if (Comparers.almostEqual(r[inIndex], 0)  /* r[inIndex] == 0 */)
             {
                 var sol = BuildSolution(y0, currentBasisIndexes);
                 /* System.Console.WriteLine("Infinite Optimal set, solution: {0}", C*sol); */
@@ -221,16 +221,6 @@ class SimplexMethod
             );
 
         return this.X0.Select((_, i) => nonZeroValues.ContainsKey(i) ? nonZeroValues[i] : 0).ToVector();
-    }
-
-    private bool almostEqual(double a, double b)
-    {
-        return Math.Abs(a - b) < 1E-8;
-    }
-
-    private bool almostGreaterThan(double a, double b)
-    {
-        return a > b && !almostEqual(a, b);
     }
 }
 
