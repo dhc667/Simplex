@@ -26,12 +26,7 @@ class SimplexMethod
         this.B = problem.ConstraintsVector;
         this.X0 = problem.InitialSolution;
         this.C = problem.ObjectiveFunction;
-        this.InitialBasisIndexes =
-            problem.BasisVectors
-            .Select((x, i) => (x, i))
-            .Where(tup => tup.x)
-            .Select(tup => tup.i)
-            .ToList();
+        this.InitialBasisIndexes = problem.BasisIndexes;
         this.Solution = this.Solve();
     }
 
@@ -43,8 +38,6 @@ class SimplexMethod
         var basisLu = currentBasis.LU();
         
         var r = new DenseVector(X0.Count);
-
-        /* var i = 0; */
 
         while (true)
         {
@@ -238,29 +231,4 @@ class SimplexMethod
     }
 }
 
-public class SimplexSolution
-{
-    public enum SolutionType
-    {
-        SingleOptimal,
-        FiniteOptimalSet,
-        InfiniteOptimalSet,
-        Unbounded,
-    }
 
-    public SolutionType Type { get; }
-
-    public Vector<double>? Solution { get; }
-    public double? ObjectiveFunction { get; }
-    public Matrix<double>? Basis { get; }
-    public List<int>? BasisIndexes { get; }
-
-    public SimplexSolution(SolutionType type, double? objectiveFunction = null, Vector<double>? v1 = null, Matrix<double>? basis = null, List<int>? basisIndexes = null)
-    {
-        this.Type = type;
-        this.Solution = v1;
-        this.ObjectiveFunction = objectiveFunction;
-        this.BasisIndexes = basisIndexes;
-        this.Basis = basis;
-    }
-}

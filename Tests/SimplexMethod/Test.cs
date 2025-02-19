@@ -150,23 +150,23 @@ public class Tests
         return answ;
     }
 
-    private static (Vector<double> initialSolution, List<bool> basisVariables) GetInitialSolution(Vector<double> b, int rowCount, int colCount)
+    private static (Vector<double> initialSolution, List<int> basisVariables) GetInitialSolution(Vector<double> b, int rowCount, int colCount)
     {
         var initialSolution = new double[colCount];
-        var basisVariables = new bool[colCount];
+        var basisVariables = new int[rowCount];
 
+        var k = 0;
         for (int i = 0; i < colCount - b.Count; i++)
         {
             initialSolution[i] = 0;
-            basisVariables[i] = false;
         }
         for (int i = colCount - b.Count, j = 0; i < colCount; i++, j++)
         {
             initialSolution[i] = b[j];
-            basisVariables[i] = true;
+            basisVariables[k++] = i;
         }
 
-        return (new DenseVector(initialSolution), new List<bool>(basisVariables));
+        return (new DenseVector(initialSolution), new List<int>(basisVariables));
     }
 
     private static (double?, double time) SolveWithPython(POL pol)
