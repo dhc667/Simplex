@@ -128,7 +128,7 @@ class SimplexMethod
     {
         var q = -1;
         var qMin = double.MaxValue;
-        for (int i = 1; i < v.Count; i++)
+        for (int i = 0; i < v.Count; i++)
         {
             if (basisIndexes.Contains(i)) continue;
             if (v[i] < qMin)
