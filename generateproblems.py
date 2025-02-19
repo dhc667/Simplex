@@ -4,13 +4,13 @@ from scipy.optimize import linprog
 
 def generate_random_problem():
     while True:
-        n = random.randint(1, 5)  # Random number of variables
+        n = random.randint(1, 4)  # Random number of variables
         m = random.randint(1, n)  # Ensure m <= n
         
         vectorN = [random.randint(-10, 10) for _ in range(n)]
         matrix = [[random.randint(-10, 10) for _ in range(n)] for _ in range(m)]
         vectorM = [random.randint(1, 20) for _ in range(m)]
-        vectorSign = [random.choice([1]) for _ in range(m)]
+        vectorSign = [random.choice([1,0]) for _ in range(m)]
         binaryVectorN = [random.choice([1]) for _ in range(n)]
         
         problem_data = {
@@ -48,15 +48,15 @@ def solve_simplex(problem_data):
                   A_eq=A_eq if A_eq else None, b_eq=b_eq if b_eq else None, method="highs")
 
     solution = {
-        "solution_vector": res.x.tolist() if res.success else None,
-        "evaluation_value": res.fun if res.success else None,
+        "solutionVector": res.x.tolist() if res.success else None,
+        "evaluationValue": res.fun if res.success else None,
         "success": res.success,
         "message": res.message
     }
     return solution
 
 # Generate and solve random feasible problems
-problems_solutions = [generate_random_problem() for _ in range(5)]
+problems_solutions = [generate_random_problem() for _ in range(10)]
 output_data = [{"problem": p, "solution": s} for p, s in problems_solutions]
 
 # Save the problems and solutions in a JSON file

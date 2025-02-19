@@ -2,56 +2,110 @@
     {
         "problem": {
             "vectorN": [
-                9,
-                9,
-                -7,
-                4,
-                -3
+                10
+            ],
+            "matrix": [
+                [
+                    1
+                ]
+            ],
+            "vectorM": [
+                8
+            ],
+            "vectorSign": [
+                0
+            ],
+            "binaryVectorN": [
+                1
+            ]
+        },
+        "solution": {
+            "solutionVector": [
+                8.0
+            ],
+            "evaluationValue": 80.0,
+            "success": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)"
+        }
+    },
+    {
+        "problem": {
+            "vectorN": [
+                -2,
+                3
             ],
             "matrix": [
                 [
                     -2,
-                    -1,
-                    -9,
-                    -4,
-                    8
+                    10
                 ],
                 [
-                    -4,
-                    1,
-                    9,
-                    0,
-                    4
-                ],
-                [
-                    -7,
-                    10,
-                    4,
-                    -10,
-                    0
-                ],
-                [
-                    4,
-                    8,
-                    4,
-                    1,
-                    -5
+                    6,
+                    -4
                 ]
             ],
             "vectorM": [
-                12,
-                5,
-                14,
+                9,
                 2
             ],
             "vectorSign": [
-                1,
-                1,
                 1,
                 1
             ],
             "binaryVectorN": [
                 1,
+                1
+            ]
+        },
+        "solution": {
+            "solutionVector": [
+                0.3333333333333333,
+                0.0
+            ],
+            "evaluationValue": -0.6666666666666666,
+            "success": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)"
+        }
+    },
+    {
+        "problem": {
+            "vectorN": [
+                4,
+                7,
+                -2,
+                -7
+            ],
+            "matrix": [
+                [
+                    -3,
+                    -10,
+                    9,
+                    -5
+                ],
+                [
+                    0,
+                    -5,
+                    5,
+                    9
+                ],
+                [
+                    6,
+                    5,
+                    -3,
+                    -7
+                ]
+            ],
+            "vectorM": [
+                14,
+                18,
+                2
+            ],
+            "vectorSign": [
+                1,
+                0,
+                1
+            ],
+            "binaryVectorN": [
                 1,
                 1,
                 1,
@@ -59,14 +113,216 @@
             ]
         },
         "solution": {
-            "solution_vector": [
+            "solutionVector": [
                 0.0,
                 0.0,
-                0.540983606557377,
                 0.0,
-                0.03278688524590162
+                2.0
             ],
-            "evaluation_value": -3.885245901639344,
+            "evaluationValue": -14.0,
+            "success": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)"
+        }
+    },
+    {
+        "problem": {
+            "vectorN": [
+                -7,
+                5,
+                -7
+            ],
+            "matrix": [
+                [
+                    -2,
+                    -3,
+                    -7
+                ],
+                [
+                    -6,
+                    -2,
+                    6
+                ],
+                [
+                    -5,
+                    6,
+                    9
+                ]
+            ],
+            "vectorM": [
+                1,
+                4,
+                11
+            ],
+            "vectorSign": [
+                1,
+                0,
+                1
+            ],
+            "binaryVectorN": [
+                1,
+                1,
+                1
+            ]
+        },
+        "solution": {
+            "solutionVector": [
+                1.2499999999999998,
+                0.0,
+                1.9166666666666667
+            ],
+            "evaluationValue": -22.166666666666668,
+            "success": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)"
+        }
+    },
+    {
+        "problem": {
+            "vectorN": [
+                -10,
+                -6
+            ],
+            "matrix": [
+                [
+                    1,
+                    8
+                ]
+            ],
+            "vectorM": [
+                4
+            ],
+            "vectorSign": [
+                1
+            ],
+            "binaryVectorN": [
+                1,
+                1
+            ]
+        },
+        "solution": {
+            "solutionVector": [
+                4.0,
+                0.0
+            ],
+            "evaluationValue": -40.0,
+            "success": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)"
+        }
+    },
+    {
+        "problem": {
+            "vectorN": [
+                5,
+                1,
+                4
+            ],
+            "matrix": [
+                [
+                    -4,
+                    10,
+                    -9
+                ],
+                [
+                    -7,
+                    5,
+                    -2
+                ],
+                [
+                    3,
+                    -10,
+                    10
+                ]
+            ],
+            "vectorM": [
+                8,
+                6,
+                16
+            ],
+            "vectorSign": [
+                1,
+                1,
+                1
+            ],
+            "binaryVectorN": [
+                1,
+                1,
+                1
+            ]
+        },
+        "solution": {
+            "solutionVector": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "evaluationValue": 0.0,
+            "success": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)"
+        }
+    },
+    {
+        "problem": {
+            "vectorN": [
+                -3
+            ],
+            "matrix": [
+                [
+                    2
+                ]
+            ],
+            "vectorM": [
+                3
+            ],
+            "vectorSign": [
+                0
+            ],
+            "binaryVectorN": [
+                1
+            ]
+        },
+        "solution": {
+            "solutionVector": [
+                1.5
+            ],
+            "evaluationValue": -4.5,
+            "success": true,
+            "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)"
+        }
+    },
+    {
+        "problem": {
+            "vectorN": [
+                -7,
+                10
+            ],
+            "matrix": [
+                [
+                    0,
+                    7
+                ],
+                [
+                    9,
+                    -6
+                ]
+            ],
+            "vectorM": [
+                1,
+                11
+            ],
+            "vectorSign": [
+                1,
+                0
+            ],
+            "binaryVectorN": [
+                1,
+                1
+            ]
+        },
+        "solution": {
+            "solutionVector": [
+                1.2222222222222223,
+                0.0
+            ],
+            "evaluationValue": -8.555555555555557,
             "success": true,
             "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)"
         }
@@ -75,64 +331,41 @@
         "problem": {
             "vectorN": [
                 -8,
-                -7,
-                4,
-                8,
-                -6
+                5,
+                -10,
+                8
             ],
             "matrix": [
                 [
-                    -1,
-                    5,
-                    -10,
+                    10,
                     3,
-                    9
-                ],
-                [
-                    1,
-                    6,
-                    9,
-                    6,
-                    10
-                ],
-                [
-                    5,
-                    -1,
-                    -5,
-                    -7,
-                    3
-                ],
-                [
-                    -5,
                     -9,
+                    -4
+                ],
+                [
+                    3,
+                    7,
+                    8,
+                    -6
+                ],
+                [
+                    -8,
                     -4,
                     7,
-                    -3
-                ],
-                [
-                    -5,
-                    5,
-                    8,
-                    -1,
-                    7
+                    4
                 ]
             ],
             "vectorM": [
-                10,
-                11,
-                15,
-                4,
+                6,
+                13,
                 4
             ],
             "vectorSign": [
-                1,
-                1,
-                1,
-                1,
-                1
+                0,
+                0,
+                0
             ],
             "binaryVectorN": [
-                1,
                 1,
                 1,
                 1,
@@ -140,14 +373,13 @@
             ]
         },
         "solution": {
-            "solution_vector": [
-                3.2580645161290325,
-                1.2903225806451613,
+            "solutionVector": [
+                11.736842105263152,
                 0.0,
-                0.0,
-                0.0
+                6.736842105263155,
+                12.684210526315782
             ],
-            "evaluation_value": -35.09677419354839,
+            "evaluationValue": -59.789473684210506,
             "success": true,
             "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)"
         }
@@ -155,38 +387,36 @@
     {
         "problem": {
             "vectorN": [
-                -4,
-                -6
+                7,
+                4,
+                10
             ],
             "matrix": [
                 [
+                    -5,
                     -3,
-                    7
-                ],
-                [
-                    2,
-                    3
+                    -4
                 ]
             ],
             "vectorM": [
-                16,
-                11
+                1
             ],
             "vectorSign": [
-                1,
                 1
             ],
             "binaryVectorN": [
+                1,
                 1,
                 1
             ]
         },
         "solution": {
-            "solution_vector": [
-                5.5,
+            "solutionVector": [
+                0.0,
+                0.0,
                 0.0
             ],
-            "evaluation_value": -22.0,
+            "evaluationValue": 0.0,
             "success": true,
             "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)"
         }

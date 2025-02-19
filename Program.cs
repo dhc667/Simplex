@@ -65,8 +65,7 @@ public class Program
                     testCase.problem.binaryVectorN.ToArray() ?? new int[0]);
                 
                 var sol = solver.Solve();
-                string json = JsonSerializer.Serialize(testCase, new JsonSerializerOptions { WriteIndented = true });
-                Console.WriteLine(json);
+                
                 Console.WriteLine("Expected Evaluation: " + testCase.solution.evaluationValue);
                 Console.WriteLine("Obtained Evaluation: " + sol.ObjectiveFunction);
                 Console.WriteLine("Expected Solution: " + string.Join(", ", testCase.solution.solutionVector));
