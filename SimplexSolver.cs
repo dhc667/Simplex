@@ -274,22 +274,22 @@ public class SimplexSolver
         var constraintsVector = DenseVector.OfArray(vectorM);
 
         // Display the initial setup
-        Console.WriteLine("\nInitial Setup:");
-        Console.WriteLine("\nObjective Function:");
-        Console.WriteLine(string.Join(", ", objectiveFunction));
-        Console.WriteLine("\nConstraints Matrix:");
-        for (int i = 0; i < constraintsMatrix.RowCount; i++)
-        {
-            Console.WriteLine(string.Join(", ", constraintsMatrix.Row(i)));
-        }
-        Console.WriteLine("\nConstraints Vector:");
-        Console.WriteLine(string.Join(", ", constraintsVector));
-        Console.WriteLine("\nInitial Solution:");
-        Console.WriteLine(string.Join(", ", initialSolution));
-        Console.WriteLine("\nBase Vector:");
-        Console.WriteLine(string.Join(", ", baseVector));
-        Console.WriteLine("\nBasis Indexes List:");
-        Console.WriteLine(string.Join(", ", basisIndexes));
+        // Console.WriteLine("\nInitial Setup:");
+        // Console.WriteLine("\nObjective Function:");
+        // Console.WriteLine(string.Join(", ", objectiveFunction));
+        // Console.WriteLine("\nConstraints Matrix:");
+        // for (int i = 0; i < constraintsMatrix.RowCount; i++)
+        // {
+        //     Console.WriteLine(string.Join(", ", constraintsMatrix.Row(i)));
+        // }
+        // Console.WriteLine("\nConstraints Vector:");
+        // Console.WriteLine(string.Join(", ", constraintsVector));
+        // Console.WriteLine("\nInitial Solution:");
+        // Console.WriteLine(string.Join(", ", initialSolution));
+        // Console.WriteLine("\nBase Vector:");
+        // Console.WriteLine(string.Join(", ", baseVector));
+        // Console.WriteLine("\nBasis Indexes List:");
+        // Console.WriteLine(string.Join(", ", basisIndexes));
 
         SimplexMethod simplexMethod;
 
@@ -297,14 +297,14 @@ public class SimplexSolver
         {
             // Handle the first phase
             var firstPhaseObjectiveFunction = DenseVector.OfEnumerable(vectorNFisrtFase);
+
             LinearProgram firstPhaseProgram = new LinearProgram(firstPhaseObjectiveFunction, constraintsMatrix, constraintsVector, initialSolution, basisIndexes);
             simplexMethod = new SimplexMethod(firstPhaseProgram);
             var firstPhaseSolution = simplexMethod.Solution;
 
             // Check if the first phase solution is feasible
-            Console.WriteLine(firstPhaseSolution.Type);
-            Console.WriteLine(firstPhaseSolution.Solution);
-            if (firstPhaseSolution.Type == SimplexSolution.SolutionType.Unbounded || Comparers.almostGreaterThan(firstPhaseSolution.ObjectiveFunction.Value, 0))
+
+            if (firstPhaseSolution.Type == SimplexSolution.SolutionType.Unbounded)
             {
                 Console.WriteLine("First phase did not find a feasible solution.");
                 return new SimplexSolution(SimplexSolution.SolutionType.Unbounded,null,null,null);
@@ -314,8 +314,51 @@ public class SimplexSolver
             var newInitialSolution = (DenseVector)firstPhaseSolution.Solution;
             var newBasisList = firstPhaseSolution.BasisIndexes;
 
-            LinearProgram linearProgram = new LinearProgram(objectiveFunction, constraintsMatrix, constraintsVector, newInitialSolution, newBasisList);
+
+            for (int i = 0; i < matrix.Count; i++)
+            {
+                matrix[i].Add(0);
+            }
+
+            List<double> artificialRow = new List<double>(new double[matrix[0].Count]);
+            for (int i = 0; i < artificials.Count; i++)
+            {
+                if (artificials[i])
+                {
+                    artificialRow[i] = 1; // Place 1 in artificial variable column
+                }
+            }
+            //Console.WriteLine(string.Join(" ",artificialRow));
+            artificialRow[artificials.Count] = 1;
+
+            matrix.Add(artificialRow);
+             // Add the new row to the matrix
+            vectorM = vectorM.Append(0).ToArray(); // Extend constraint vector
+
+            // Add a 0 at the end of each row of the matrix
+            
+
+            // Add a 0 to the end of the objective function
+            var updatedObjectiveFunction = DenseVector.OfEnumerable(objectiveFunction.Append(0));
+
+            // Add a 0 to the end of the initial solution
+            var updatedInitialSolution = DenseVector.OfEnumerable(newInitialSolution.Append(0));
+
+            // Add objectiveFunction.Length - 1 to the new basis list
+            newBasisList.Add(updatedObjectiveFunction.Count - 1);
+
+            // foreach (var row in matrix)
+            // {
+            //     Console.WriteLine(string.Join(" ",row));
+            // }
+
+            var constraintsMatrix2 = DenseMatrix.OfRows(matrix.Count, matrix[0].Count, matrix);
+            var constraintsVector2 = DenseVector.OfArray(vectorM);
+            
+            LinearProgram linearProgram = new LinearProgram(updatedObjectiveFunction, constraintsMatrix2, constraintsVector2, updatedInitialSolution, newBasisList);
+            
             simplexMethod = new SimplexMethod(linearProgram);
+            
         }
         else
         {

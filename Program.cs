@@ -76,7 +76,8 @@ public class Program
         }
         catch (Exception ex)
         {
-            Console.WriteLine("Error reading or processing the test file: " + ex.Message);
+
+            Console.WriteLine("Error reading or processing the test file: " + ex);
         }
     }
 

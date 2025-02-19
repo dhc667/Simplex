@@ -10,7 +10,7 @@ def generate_random_problem():
         vectorN = [random.randint(-10, 10) for _ in range(n)]
         matrix = [[random.randint(-10, 10) for _ in range(n)] for _ in range(m)]
         vectorM = [random.randint(1, 20) for _ in range(m)]
-        vectorSign = [random.choice([1,0]) for _ in range(m)]
+        vectorSign = [random.choice([1,0,-1]) for _ in range(m)]
         binaryVectorN = [random.choice([1]) for _ in range(n)]
         
         problem_data = {
