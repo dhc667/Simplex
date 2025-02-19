@@ -44,8 +44,10 @@ class SimplexMethod
             var cB = GetBasicCosts(currentBasisIndexes);
             var cb_bInverse = CB_BInverse(basisLu, cB); 
 
-            UpdateRVector(currentBasisIndexes.ToHashSet(), cb_bInverse, r);
-            var inIndex = GetIndexOfMinimum(r);
+            var currentBasisIndexesSet = currentBasisIndexes.ToHashSet();
+
+            UpdateRVector(currentBasisIndexesSet, cb_bInverse, r);
+            var inIndex = GetNonBasicIndexOfMinimum(r, currentBasisIndexesSet);
             
             /* System.Console.WriteLine($"cb = [{string.Join(',', cB.ToList())}]"); */
             /* System.Console.WriteLine($"cb_bInverse = [{string.Join(',', cb_bInverse.ToList())}]"); */
@@ -55,7 +57,7 @@ class SimplexMethod
             /* System.Console.WriteLine(currentBasis); */
             /* System.Console.WriteLine($"Current Solution: {C * BuildSolution(y0, currentBasisIndexes)}"); */
 
-            if (almostGreaterThan(r[inIndex], 0)  /* r[inIndex] > 0 */)
+            if (inIndex == -1 || almostGreaterThan(r[inIndex], 0)  /* r[inIndex] > 0 */)
             {
                 var sol = BuildSolution(y0, currentBasisIndexes);
                 return new SimplexSolution(SimplexSolution.SolutionType.SingleOptimal, C * sol, sol, currentBasis, currentBasisIndexes);
@@ -122,12 +124,13 @@ class SimplexMethod
     }
 
 
-    private int GetIndexOfMinimum(Vector<double> v)
+    private int GetNonBasicIndexOfMinimum(Vector<double> v, HashSet<int> basisIndexes)
     {
-        var q = 0;
-        var qMin = v[q];
+        var q = -1;
+        var qMin = double.MaxValue;
         for (int i = 1; i < v.Count; i++)
         {
+            if (basisIndexes.Contains(i)) continue;
             if (v[i] < qMin)
             {
                 q = i;
