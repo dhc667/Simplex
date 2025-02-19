@@ -259,24 +259,84 @@ public class SimplexSolver
         // DisplayResults();
         
         List<bool> baseVector = initBase.Select(x => x == 1).ToList();
-    
+        List<int> basisIndexes = initBase.Select((x, i) => x == 1 ? i : -1).Where(i => i != -1).ToList();
+
+        int vectormIndex = 0;
         var initialSolution = DenseVector.OfEnumerable(
-            initBase.Select((x, i) => x == 1 ? vectorM[i] : 0)
+            baseVector.Select((x, i) => x ? vectorM[vectormIndex++] : 0)
         );
 
         var objectiveFunction = DenseVector.OfEnumerable(vectorN);
         var constraintsMatrix = DenseMatrix.OfRows(matrix.Count, matrix[0].Count, matrix);
         var constraintsVector = DenseVector.OfArray(vectorM);
-    
-        LinearProgram linearProgram = new LinearProgram(objectiveFunction, constraintsMatrix, constraintsVector, initialSolution, baseVector);
-    
+
+        // Display the initial setup
+        Console.WriteLine("\nInitial Setup:");
+        Console.WriteLine("\nObjective Function:");
+        Console.WriteLine(string.Join(", ", objectiveFunction));
+        Console.WriteLine("\nConstraints Matrix:");
+        for (int i = 0; i < constraintsMatrix.RowCount; i++)
+        {
+            Console.WriteLine(string.Join(", ", constraintsMatrix.Row(i)));
+        }
+        Console.WriteLine("\nConstraints Vector:");
+        Console.WriteLine(string.Join(", ", constraintsVector));
+        Console.WriteLine("\nInitial Solution:");
+        Console.WriteLine(string.Join(", ", initialSolution));
+        Console.WriteLine("\nBase Vector:");
+        Console.WriteLine(string.Join(", ", baseVector));
+        Console.WriteLine("\nBasis Indexes List:");
+        Console.WriteLine(string.Join(", ", basisIndexes));
+
+        SimplexMethod simplexMethod;
+
         if (twoFases)
         {
-           
+            // Handle the first phase
+            var firstPhaseObjectiveFunction = DenseVector.OfEnumerable(vectorNFisrtFase);
+            LinearProgram firstPhaseProgram = new LinearProgram(firstPhaseObjectiveFunction, constraintsMatrix, constraintsVector, initialSolution, basisIndexes);
+            simplexMethod = new SimplexMethod(firstPhaseProgram);
+            var firstPhaseSolution = simplexMethod.Solution;
+
+            // Check if the first phase solution is feasible
+            if (firstPhaseSolution.Type != SimplexSolution.SolutionType.SingleOptimal)
+            {
+                Console.WriteLine("First phase did not find a feasible solution.");
+                return;
+            }
+
+            // Use the first phase solution as the initial solution for the second phase
+            var newInitialSolution = (DenseVector)firstPhaseSolution.Solution;
+            LinearProgram linearProgram = new LinearProgram(objectiveFunction, constraintsMatrix, constraintsVector, newInitialSolution, basisIndexes);
+            simplexMethod = new SimplexMethod(linearProgram);
         }
         else
         {
-            
+            LinearProgram linearProgram = new LinearProgram(objectiveFunction, constraintsMatrix, constraintsVector, initialSolution, basisIndexes);
+            simplexMethod = new SimplexMethod(linearProgram);
+        }
+
+        var finalSolution = simplexMethod.Solution;
+        
+        // Display the final solution
+        if (finalSolution.Type == SimplexSolution.SolutionType.SingleOptimal)
+        {
+            Console.WriteLine("Optimal solution found:");
+            Console.WriteLine($"Objective function value: {finalSolution.ObjectiveFunction}");
+            Console.WriteLine($"Solution: {string.Join(", ", finalSolution.Solution?.ToArray() ?? new double[0])}");
+        }
+        else if (finalSolution.Type == SimplexSolution.SolutionType.InfiniteOptimalSet)
+        {
+            Console.WriteLine(finalSolution.Solution);
+            Console.WriteLine("Infinite optimal solutions found.");
+        }
+        else if (finalSolution.Type == SimplexSolution.SolutionType.Unbounded)
+        {
+            Console.WriteLine("The problem is unbounded.");
+        }
+        else
+        {
+            Console.WriteLine("No feasible solution found.");
         }
     }
 }
