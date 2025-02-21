@@ -253,7 +253,7 @@ public class SimplexSolver
     // Solve the simplex problem
     public SimplexSolution Solve()
     {
-        if(n<m){
+        if(false){
             ConvertToDual();
         }
         PreprocessBinaryVectorN();
@@ -304,7 +304,7 @@ public class SimplexSolver
 
             // Check if the first phase solution is feasible
 
-            if (firstPhaseSolution.Type == SimplexSolution.SolutionType.Unbounded)
+            if (firstPhaseSolution.Type == SimplexSolution.SolutionType.Unbounded || !Comparers.almostEqual(firstPhaseSolution.ObjectiveFunction.Value, 0))
             {
                 Console.WriteLine("First phase did not find a feasible solution.");
                 return new SimplexSolution(SimplexSolution.SolutionType.Unbounded,null,null,null);
@@ -377,14 +377,14 @@ public class SimplexSolver
         // Display the final solution
         if (finalSolution.Type == SimplexSolution.SolutionType.SingleOptimal)
         {
-            Console.WriteLine("Optimal solution found:");
-            Console.WriteLine($"Objective function value: {finalSolution.ObjectiveFunction}");
-            Console.WriteLine($"Solution: {string.Join(", ", finalSolution.Solution?.ToArray() ?? new double[0])}");
+            /* Console.WriteLine("Optimal solution found:"); */
+            /* Console.WriteLine($"Objective function value: {finalSolution.ObjectiveFunction}"); */
+            /* Console.WriteLine($"Solution: {string.Join(", ", finalSolution.Solution?.ToArray() ?? new double[0])}"); */
         }
         else if (finalSolution.Type == SimplexSolution.SolutionType.InfiniteOptimalSet)
         {
-            Console.WriteLine(finalSolution.Solution);
-            Console.WriteLine("Infinite optimal solutions found.");
+            /* Console.WriteLine(finalSolution.Solution); */
+            /* Console.WriteLine("Infinite optimal solutions found."); */
         }
         else if (finalSolution.Type == SimplexSolution.SolutionType.Unbounded)
         {

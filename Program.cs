@@ -15,7 +15,7 @@ public class Program
                     RunTest2();
                     break;
                 case "--solve":
-                    RunSolve();
+                    RunSolve("problem.json");
                     break;
                 default:
                     Console.WriteLine("Unknown command");
@@ -90,30 +90,28 @@ public class Program
     }
 
 
-    private static void RunSolve()
+    private static void RunSolve(string jsonPath)
     {
-        Console.WriteLine("Solving...");
+        string jsonContent = File.ReadAllText(jsonPath);
+        /* System.Console.WriteLine(jsonContent); */
+        var problem = JsonSerializer.Deserialize<ProblemData>(jsonContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-        // Example problem
-        int m = 1; // Number of constraints
-        int n = 1; // Number of variables
-
-        List<double> vectorN = new List<double> {-1 }; // Coefficients of the objective function
-        List<List<double>> matrix = new List<List<double>>
-        {
-            new List<double> {1 },
-
-        };
-        double[] vectorM = { 2}; // Right-hand side values of the constraints
-        int[] vectorSign = { 1 }; // Signs of the constraints (1 for <=, 0 for =, -1 for >=)
-        int[] binaryVectorN = { 1 }; 
-
-        SimplexSolver solver = new SimplexSolver(m, n, vectorN, matrix, vectorM, vectorSign, binaryVectorN);
-        solver.Solve();
+        SimplexSolver solver = new SimplexSolver(
+            problem.vectorM?.Count ?? 0, problem.vectorN?.Count ?? 0,
+            problem.vectorN ?? new List<double>(), 
+            problem.matrix ?? new List<List<double>>(),
+            problem.vectorM.ToArray() ?? new double[0], 
+            problem.vectorSign.ToArray() ?? new int[0],
+            problem.binaryVectorN.ToArray() ?? new int[0]);
+        
+        var sol = solver.Solve();
+        
+        Console.WriteLine($"Obtained Evaluation: {sol.ObjectiveFunction}");
+        Console.WriteLine($"Obtained Solution: ");
+        System.Console.WriteLine(sol.Solution);
+        /* Console.WriteLine("--------------------------------------------------"); */
     }
 
-
-    
 }
 
 
